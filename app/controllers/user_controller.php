@@ -9,7 +9,7 @@ function index()
 
 function hello($name)
 {
-    
+    return ['name' => $name];
 }
 
 function book($user_id, $book_id)
