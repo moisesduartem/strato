@@ -20,6 +20,7 @@ git clone https://github.com/moisesduartem/strato blog
 - [1. Installing dependencies](#1-installing-dependencies)
 - [2. Routes](#2-routes)
 - [3. Controllers](#3-controllers)
+- [4. Views](#4-views)
 
 
 # 1. Installing dependencies
@@ -104,4 +105,55 @@ function show($id) // user_controller#show
 {
     echo 'Your id is: ' . $id;
 }
+```
+
+# 4. Views
+
+You know [**how to use a route**](#2-routes) and [**how to use a controller**](#3-controllers). And how we can render view dinamically with Strato? Simple!
+
+Strato use the **Twig Template Engine**, for more information read the official [documentation](https://twig.symfony.com/doc/3.x/).
+
+4.1. Basics
+
+If you declared a route `user_controller#index` in the `/users` URI, **you don't need to execute any function** to render a **Twig view**. If the the view `index.twig` exists on the `app/views/users` directory, it **will be rendered automatically**. Otherwise, nothing will happen.
+
+So, if your controller it's like this:
+
+```
+<?php
+declare(strict_types=1);
+
+namespace app\controllers\user_controller;
+
+//...
+
+function index()
+{
+}
+```
+
+The `app/views/users/index.twig` view will be presented.
+
+4.2. Passing parameters to a view
+
+If you declared a route `user_controller#hello` in the `/hello/{name}` URI, your controller must be like this:
+
+```
+<?php
+declare(strict_types=1);
+
+namespace app\controllers\user_controller;
+
+//...
+
+function hello($name)
+{
+    return ['name' => $name];
+}
+```
+
+Now, the view `app/views/users/hello.twig` can render the $name value:
+
+```
+Hello, {{name}}!
 ```
