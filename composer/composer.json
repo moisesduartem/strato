@@ -1,0 +1,14 @@
+{
+    "name": "project/dependencies",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Moisés Mariano",
+            "email": "moisesduartem@gmail.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "3.*"
+    }
+}
