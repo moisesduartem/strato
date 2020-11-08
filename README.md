@@ -21,6 +21,7 @@ git clone https://github.com/moisesduartem/strato blog
 - [2. Routes](#2-routes)
 - [3. Controllers](#3-controllers)
 - [4. Views](#4-views)
+- [5. Middlewares](#5-middlewares)
 
 
 # 1. Installing dependencies
@@ -157,6 +158,40 @@ Now, the view `app/views/users/hello.twig` can render the $name value:
 ```
 Hello, {{name}}!
 ```
+
+# 5. Middlewares
+
+Middlewares are functions called before the action and they are very util and important to protect your routes. They **stays unconditionally** on `app/middlewares` and the function with the **same name** of the script will be called. Let's check their syntax. Example with `auth` middleware:
+
+We can see here on `config/routes.php` that the middleware to `GET '/'` route is `auth`.
+```
+<?php
+
+$routes = [
+    ['method' => 'GET', 'uri' => '/', 'to' => 'user_controller#index', 'middleware' => 'auth'],
+    ['method' => 'GET', 'uri' => '/hello/{name}', 'to' => 'user_controller#hello'],
+];
+
+return $routes;
+```
+
+So, the file at `app/middleware/auth.php` must be like this:
+
+```
+<?php
+declare(strict_types=1);
+
+namespace app\middlewares\auth;
+
+function auth()
+{
+    $is_not_authorized = true;
+    if ($is_not_authorized) {
+        header('Location: /hello/stranger');
+    }
+}
+```
+Now everytime that `GET '/'` will be accessed, the client will be redirected to `GET /hello/stranger` route.
 
 ---
 
