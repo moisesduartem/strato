@@ -13,6 +13,7 @@ use function config\router\get_params_from_uri;
 use function config\router\is_compatible;
 use function config\router\need_params;
 
+require_once __DIR__ . '/../config/helper.php';
 require_once __DIR__ . '/../config/request.php';
 require_once __DIR__ . '/../config/router.php';
 $routes = require_once __DIR__ . '/../config/routes.php';
