@@ -157,3 +157,10 @@ Now, the view `app/views/users/hello.twig` can render the $name value:
 ```
 Hello, {{name}}!
 ```
+
+---
+
+Credits:
+
+- Moisés Mariano
+- [GitHub Project](https://github.com/moisesduartem/strato)
