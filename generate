@@ -5,6 +5,7 @@ require __DIR__ . '/composer/vendor/autoload.php';
 use League\CLImate\CLImate;
 
 define('CONTROLLERS_PATH', __DIR__ . '/app/controllers');
+define('MODELS_PATH', __DIR__ . '/app/models');
 define('EXAMPLES_PATH', __DIR__ . '/config/cli/examples');
 /**
  * Remove 'generate' from arguments.
@@ -62,5 +63,70 @@ function controller(string $name)
          * Otherwise, show a message.
          */
         climate()->backgroundRed()->text(PHP_EOL . $controller_name . ' controller already exists.' . PHP_EOL);
+    }
+}
+
+function model(string $name, ...$columns)
+{
+    /**
+     * If there is NO COLUMNS, shows a message,
+     * and stops.
+     */
+    if (count($columns) == 0) {
+        return climate()->backgroundRed()->text(PHP_EOL . 'You MUST pass model columns on database (ex: id, name, email, etc.).' . PHP_EOL);
+    }
+    /**
+     * Ex: user
+     * @var string
+     */
+    $model_name = $name;
+    /**
+     * Database table name.
+     * Ex: users
+     * @var string
+     */
+    $table_name = $model_name . 's';
+    /**
+     * Replace where is $entity with the entity name in model example file.
+     * @var string
+     */
+    $content = str_replace('$entity', $model_name, file_get_contents(EXAMPLES_PATH . '/model.php'));
+    /**
+     * Replace update 'set x = y, k = z, ...' named as $set_columns
+     * and $bind_columns for bind values (ex: ['id' => $id])
+     */
+    $columns_count = count($columns);
+    $set_columns = '';
+    $bind_columns = '';
+    foreach ($columns as $key => $column) {
+        $set_columns .= ($key == 0) ? "$column = :$column" : ", $column = :$column";
+        $bind_columns .= ($key == ($columns_count - 1)) ? 
+        "'$column' => \$request['$column']" :  "'$column' => \$request['$column'],";
+    }
+    /**
+     * Replace $set_columns settings on model example.
+     * @var string
+     */
+    $content = str_replace('$set_columns', $set_columns, $content);
+    /**
+     * Replace $bind_columns settings on model example.
+     * @var string
+     */
+    $content = str_replace('$bind_columns', $bind_columns, $content);
+    /**
+     * Checks if model already exists.
+     */
+    if(!file_exists(MODELS_PATH . "/$model_name.php")) {
+        /**
+         * If don't, create it!
+         */
+        file_put_contents(MODELS_PATH .'/' . $model_name . '.php',
+        $content
+        );
+    } else {
+        /**
+         * Otherwise, show a message.
+         */
+        climate()->backgroundRed()->text(PHP_EOL . $model_name . ' model already exists.' . PHP_EOL);
     }
 }
