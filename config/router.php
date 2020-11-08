@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace config\router;
 
+use function config\helper\view;
 use function config\request\get_uri;
 
 /**
@@ -22,7 +23,17 @@ function execute_route(array $route, ...$params) : void
     $action_array = parse_route_action($route['to']);
     require_once __DIR__ . '/../app/controllers/' . $action_array[0] . '.php';
     $func = 'app\\controllers\\' . $action_array[0] . '\\' . $action_array[1];
-    $func(...$params);
+    $entity_name = str_replace('_controller', '', $action_array[0]) . 's';
+    $data = $func(...$params);
+    /**
+     * Let's suppose that the action is user_controller#index. Ok?
+     * So, if the 'users/index.twig' view exists, the $data that was
+     * returned from controller will be passed to this view, that
+     * will be rendered. 
+     */
+    if (file_exists( __DIR__ . "/../app/views/$entity_name/$action_array[1].twig")) {
+        view("$entity_name/$action_array[1]", $data ?? []);
+    }
     die();
 }
 
