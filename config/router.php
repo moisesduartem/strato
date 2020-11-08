@@ -20,10 +20,22 @@ use function config\request\get_uri;
  */
 function execute_route(array $route, ...$params) : void
 {
+    /**
+     * Checking middleware
+     */
+    if (isset($route['middleware']) && !empty($route['middleware'])) {
+        require_once __DIR__ . '/../app/middlewares/' . $route['middleware'] . '.php';
+        $middleware_func = 'app\\middlewares\\' . $route['middleware']. '\\' .$route['middleware']; 
+        $middleware_func();
+    }
     $action_array = parse_route_action($route['to']);
     require_once __DIR__ . '/../app/controllers/' . $action_array[0] . '.php';
     $func = 'app\\controllers\\' . $action_array[0] . '\\' . $action_array[1];
     $entity_name = str_replace('_controller', '', $action_array[0]) . 's';
+    /**
+     * Executing function, passing the params and
+     * receiving data to be rendered.
+     */
     $data = $func(...$params);
     /**
      * Let's suppose that the action is user_controller#index. Ok?
