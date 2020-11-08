@@ -1,0 +1,13 @@
+{
+    "name": "strato/strato",
+    "description": "A PHP function-based framework.",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Moisés Mariano",
+            "email": "moisesduartem@gmail.com"
+        }
+    ],
+    "require": {}
+}
