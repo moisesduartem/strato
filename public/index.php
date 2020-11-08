@@ -14,6 +14,7 @@ use function config\router\is_compatible;
 use function config\router\need_params;
 
 require_once __DIR__ . '/../composer/vendor/autoload.php';
+require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../config/helper.php';
 require_once __DIR__ . '/../config/request.php';
 require_once __DIR__ . '/../config/router.php';
