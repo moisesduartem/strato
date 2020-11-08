@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * @author Moisés Mariano
+ * @source github.com/moisesduartem
+ */
+
 use function config\request\get_method;
 use function config\request\get_uri;
 use function config\router\execute_route;

@@ -1,6 +1,11 @@
 <?php
 declare(strict_types=1);
 
+/**
+ * @author Moisés Mariano
+ * @source github.com/moisesduartem
+ */
+
 namespace config\router;
 
 use function config\request\get_uri;
