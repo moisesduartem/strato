@@ -19,6 +19,7 @@ git clone https://github.com/moisesduartem/strato blog
 - [Summary](#summary)
 - [1. Installing dependencies](#1-installing-dependencies)
 - [2. Routes](#2-routes)
+- [3. Controllers](#3-controllers)
 
 
 # 1. Installing dependencies
@@ -74,4 +75,33 @@ $routes = [
 ];
 
 return $routes;
+```
+
+# 3. Controllers
+
+Here, controllers are scripts that **stays unconditionally** on `app/controllers`. Let's check their syntax. Example with `user_controller`:
+
+```
+<?php
+declare(strict_types=1);
+
+namespace app\controllers\user_controller;
+
+function index() // user_controller#index
+{
+}
+```
+
+Now, you want to catch the parameter that you had passed on URL to your controller, so...
+
+```
+<?php
+declare(strict_types=1);
+
+namespace app\controllers\user_controller;
+
+function show($id) // user_controller#show
+{
+    echo 'Your id is: ' . $id;
+}
 ```
