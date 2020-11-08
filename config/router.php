@@ -107,7 +107,7 @@ function is_compatible(string $route_uri) : bool
     $exploded_uri = explode('/', get_uri());
     $final = array_slice(explode('/', $route_uri), 1);
     foreach ($route_params_indexes as $index) {
-        $final[$index] = $exploded_uri[$index + 1];
+        $final[$index] = isset($exploded_uri[$index + 1]) ? $exploded_uri[$index + 1] : '';
     }
     return (('/'. implode('/', $final)) == get_uri());
 }
