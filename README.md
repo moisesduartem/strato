@@ -22,6 +22,7 @@ git clone https://github.com/moisesduartem/strato blog
 - [3. Controllers](#3-controllers)
 - [4. Views](#4-views)
 - [5. Middlewares](#5-middlewares)
+- [6. Database Access](#6-database-access)
 
 
 # 1. Installing dependencies
@@ -31,6 +32,7 @@ To use the framework, you **MUST** install the necessary dependencies.
 - NodeJS
 - NPM (Node Package Manager)
 - Composer (PHP Package Manager)
+- You **MUST** to fill `config/.env` with **your database credentials** file same as `config/.env.example` is filled.
 
 1.2. Composer
 ```
@@ -192,6 +194,22 @@ function auth()
 }
 ```
 Now everytime that `GET '/'` will be accessed, the client will be redirected to `GET /hello/stranger` route.
+
+# 6. Database Access
+To execute SQL queries, if you have `config/.env` configurated, use the helper `pdo()`,
+
+Example 1:
+```
+$stmt = pdo('select * from users);
+$users = $stmt->fetchAll();
+```
+
+Example 2:
+```
+$id = 1;
+$stmt = pdo('select * from users where id = :id, ['id' => $id]);
+$user = $stmt->fetchAll();
+```
 
 ---
 
