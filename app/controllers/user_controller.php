@@ -2,6 +2,8 @@
 declare(strict_types=1);
 
 namespace app\controllers\user_controller;
+require __DIR__ . '/../models/user.php';
+use function app\models\user\get_user;
 
 function index()
 {
@@ -12,7 +14,7 @@ function hello($name)
     return ['name' => $name];
 }
 
-function book($user_id, $book_id)
+function show($id)
 {
-    echo 'user_id: ' . $user_id .  '<br>' . 'book_id: ' . $book_id;
+    return ['user' => get_user((int) $id)];
 }
