@@ -2,10 +2,11 @@
 declare(strict_types=1);
 
 namespace app\controllers\user_controller;
+use function config\helper\view;
 
 function index()
 {
-    echo '~ hello world!';
+    return view('users.index');
 }
 
 function hello($name)
