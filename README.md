@@ -32,7 +32,7 @@ To use the framework, you **MUST** install the necessary dependencies.
 - NodeJS
 - NPM (Node Package Manager)
 - Composer (PHP Package Manager)
-- You **MUST** to fill `config/.env` with **your database credentials** file same as `config/.env.example` is filled.
+- You **MUST** fill `config/.env` with **your database credentials** file same as `config/.env.example` is filled.
 
 1.2. Composer
 ```
@@ -118,9 +118,9 @@ Strato use the **Twig Template Engine**, for more information read the official 
 
 4.1. Basics
 
-If you declared a route `user_controller#index` in the `/users` URI, **you don't need to execute any function** to render a **Twig view**. If the the view `index.twig` exists on the `app/views/users` directory, it **will be rendered automatically**. Otherwise, nothing will happen.
+If you declared a route `user_controller#index` in the `/users` URI, **you don't need to execute any function** to render a **Twig view**. If the view `index.twig` exists on the `app/views/users` directory, it **will be rendered automatically**. Otherwise, nothing gonna happen.
 
-So, if your controller it's like this:
+So, if you have a controller like this:
 
 ```
 <?php
@@ -135,7 +135,7 @@ function index()
 }
 ```
 
-The `app/views/users/index.twig` view will be presented.
+The `app/views/users/index.twig` view will be presented automatically.
 
 4.2. Passing parameters to a view
 
@@ -155,7 +155,7 @@ function hello($name)
 }
 ```
 
-Now, the view `app/views/users/hello.twig` can render the $name value:
+Now, the view `app/views/users/hello.twig` can render the `$name` value:
 
 ```
 Hello, {{name}}!
@@ -163,7 +163,7 @@ Hello, {{name}}!
 
 # 5. Middlewares
 
-Middlewares are functions called before the action and they are very util and important to protect your routes. They **stays unconditionally** on `app/middlewares` and the function with the **same name** of the script will be called. Let's check their syntax. Example with `auth` middleware:
+Middlewares are functions called **before the action** and they are very util and important to protect your routes. They **stays unconditionally** on `app/middlewares` and the function with the **same name** of the script will be called. Let's check their syntax. Example with `auth` middleware:
 
 We can see here on `config/routes.php` that the middleware to `GET '/'` route is `auth`.
 ```
@@ -193,10 +193,10 @@ function auth()
     }
 }
 ```
-Now everytime that `GET '/'` will be accessed, the client will be redirected to `GET /hello/stranger` route.
+Now everytime that `GET '/'` is accessed, the browser will be redirected to `GET /hello/stranger` route.
 
 # 6. Database Access
-To execute SQL queries, if you have `config/.env` configurated, use the helper `pdo()`,
+To execute SQL queries, if you have `config/.env` configurated, it's just use the `pdo()` helper,
 
 Example 1:
 ```
