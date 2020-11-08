@@ -163,4 +163,4 @@ Hello, {{name}}!
 Credits:
 
 - Moisés Mariano
-- [GitHub Project](#https://github.com/moisesduartem/strato)
+- [GitHub Project](https://github.com/moisesduartem/strato)
