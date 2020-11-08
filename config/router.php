@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace config\router;
 
+use function config\request\get_uri;
+
 /**
  * Execute action function and pass params.
  *
@@ -20,6 +22,52 @@ function execute_route(array $route, ...$params) : void
 }
 
 /**
+ * Get parameters indexes from route uri;
+ * @param string $route_uri
+ * @return array
+ */
+function get_params_from_route(string $route_uri) : array
+{
+    /**
+     * Split route uri with '/'
+     */
+    $splited_route_uri = explode('/', $route_uri);
+
+    $params = [];
+    /**
+     * Run all/part/like/this from route uri
+     */
+    foreach($splited_route_uri as $key => $part) {
+        /**
+         * If in that parte have some '{',
+         * needs a param!
+         */
+        if (strstr($part, '{')) {
+            $params[] = $key - 1;
+        }
+    }
+    return $params;
+}
+
+/**
+ * Catch params from uri to return them on array
+ * and in a future be passed to action. 
+ *
+ * @param string $route_uri
+ * @return array
+ */
+function get_params_from_uri(string $route_uri) : array
+{
+    $route_params_indexes = get_params_from_route($route_uri);
+    $exploded_uri = explode('/', get_uri());
+    $params = [];
+    foreach ($route_params_indexes as $index) {
+        $params[] = $exploded_uri[$index + 1];
+    }
+    return $params;
+}
+
+/**
  * Verify if route uri is compatible with actual uri.
  *
  * @param string $route_uri
@@ -27,7 +75,13 @@ function execute_route(array $route, ...$params) : void
  */
 function is_compatible(string $route_uri) : bool
 {
-    return false;
+    $route_params_indexes = get_params_from_route($route_uri);
+    $exploded_uri = explode('/', get_uri());
+    $final = array_slice(explode('/', $route_uri), 1);
+    foreach ($route_params_indexes as $index) {
+        $final[$index] = $exploded_uri[$index + 1];
+    }
+    return (('/'. implode('/', $final)) == get_uri());
 }
 
 /**
