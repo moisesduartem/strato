@@ -1,0 +1,66 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/composer/vendor/autoload.php';
+use League\CLImate\CLImate;
+
+define('CONTROLLERS_PATH', __DIR__ . '/app/controllers');
+define('EXAMPLES_PATH', __DIR__ . '/config/cli/examples');
+/**
+ * Remove 'generate' from arguments.
+ * @var array
+ */
+$argv = array_slice($argv, 1);
+/**
+ * Receives the function name.
+ * @var string
+ */
+$func = $argv[0];
+/**
+ * Catch the params.
+ * @var array
+ */
+$params = array_slice($argv, 1);
+$func(...$params);
+
+function climate()
+{
+    return new CLImate;
+}
+
+function controller(string $name)
+{
+    /**
+     * If the controller given name don't have '_controller' at the end,
+     * receives.
+     * @var string
+     */
+    $controller_name = (preg_match('/_controller/', $name)) ? $name : ($name . '_controller');
+    /**
+     * Remove '_controller' from controller name. Is the entity.
+     * Ex: user_controller ~≳ user
+     * @var string
+     */
+    $entity_name = str_replace('_controller', '', $controller_name);
+    /**
+     * Replace where is $entity with the entity name in controller example file.
+     * @var string
+     */
+    $content = str_replace('$entity', $entity_name, file_get_contents(EXAMPLES_PATH . '/controller.php'));
+    /**
+     * Checks if controller already exists.
+     */
+    if(!file_exists(CONTROLLERS_PATH . "/$controller_name.php")) {
+        /**
+         * If don't, create it!
+         */
+        file_put_contents(CONTROLLERS_PATH .'/' . $controller_name . '.php',
+        $content
+    );
+    } else {
+        /**
+         * Otherwise, show a message.
+         */
+        climate()->backgroundRed()->text(PHP_EOL . $controller_name . ' controller already exists.' . PHP_EOL);
+    }
+}
