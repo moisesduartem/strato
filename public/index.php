@@ -6,6 +6,7 @@ declare(strict_types=1);
  * @source github.com/moisesduartem
  */
 
+use function config\helper\view;
 use function config\request\get_method;
 use function config\request\get_uri;
 use function config\router\execute_route;
@@ -63,4 +64,10 @@ function start(array $routes) : void
     throw new Exception("Route doesn't exist.");
 }
 
-start($routes);
+try {
+    start($routes);
+} catch (\TypeError $t) {
+    view('404');
+} catch (\Exception $e) {
+    view('404');
+}
