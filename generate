@@ -96,13 +96,27 @@ function model(string $name, ...$columns)
      * and $bind_columns for bind values (ex: ['id' => $id])
      */
     $columns_count = count($columns);
+    $column_keys = '';
+    $column_values = '';
     $set_columns = '';
     $bind_columns = '';
     foreach ($columns as $key => $column) {
+        $column_keys .= ($key == 0) ? "$column" : ", $column";
+        $column_values .= ($key == 0) ? ":$column" : ", :$column";
         $set_columns .= ($key == 0) ? "$column = :$column" : ", $column = :$column";
         $bind_columns .= ($key == ($columns_count - 1)) ? 
         "'$column' => \$request['$column']" :  "'$column' => \$request['$column'],";
     }
+    /**
+     * Replace $column_keys for insert on model example.
+     * @var string
+     */
+    $content = str_replace('$column_keys', $column_keys, $content);
+    /**
+     * Replace $column_values for insert on model example.
+     * @var string
+     */
+    $content = str_replace('$column_values', $column_values, $content);
     /**
      * Replace $set_columns settings on model example.
      * @var string

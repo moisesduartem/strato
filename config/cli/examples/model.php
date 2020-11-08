@@ -14,6 +14,12 @@ function find_$entity($id)
     return pdo('select * from $entitys where id = :id', ['id' => $id])->fetch(\PDO::FETCH_ASSOC);
 }
 
+function create_$entity($request)
+{
+    pdo('insert into $entitys ($column_keys) values ($column_values)', [$bind_columns]);
+    return [];
+}
+
 function update_$entity($id, $request)
 {
     pdo('update $entitys set $set_columns where id = :id', ['id' => $id, $bind_columns]);
