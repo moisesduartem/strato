@@ -1,0 +1,78 @@
+#!/usr/bin/env php
+<?php
+
+require __DIR__ . '/composer/vendor/autoload.php';
+use League\CLImate\CLImate;
+
+define('CONTROLLERS_PATH', __DIR__ . '/app/controllers');
+define('MODELS_PATH', __DIR__ . '/app/models');
+define('EXAMPLES_PATH', __DIR__ . '/config/cli/examples');
+/**
+ * Remove 'generate' from arguments.
+ * @var array
+ */
+$argv = array_slice($argv, 1);
+/**
+ * Receives the function name.
+ * @var string
+ */
+$func = $argv[0];
+/**
+ * Catch the params.
+ * @var array
+ */
+$params = array_slice($argv, 1);
+$func(...$params);
+
+function climate()
+{
+    return new CLImate;
+}
+
+/**
+ * @param string $title
+ * @param array $data
+ * @return void
+ */
+function show_as_column(string $title, array $data)
+{
+    climate()->yellow()->bold()->underline("\n$title\n");
+    climate()->lightCyan()->columns($data);
+    echo "\n";
+}
+
+/**
+ * @param array $items
+ * @return array
+ */
+function remove_extension_from_each_key(array $items) : array
+{
+    foreach ($items as $item) {
+        $list[][] = str_replace('.php', '', $item);
+    }
+    return $list;
+}
+
+/**
+ * List all controllers.
+ *
+ * @return void
+ */
+function controllers()
+{
+    $controllers = array_slice(scandir(CONTROLLERS_PATH), 2);
+    $list = remove_extension_from_each_key($controllers);
+    show_as_column('controllers', $list);
+}
+
+/**
+ * List all models.
+ *
+ * @return void
+ */
+function models()
+{
+    $models = array_slice(scandir(MODELS_PATH), 2);
+    $list = remove_extension_from_each_key($models);
+    show_as_column('models', $list);
+}
