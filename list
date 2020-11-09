@@ -4,6 +4,8 @@
 require __DIR__ . '/composer/vendor/autoload.php';
 use League\CLImate\CLImate;
 
+define('ROUTES', __DIR__ . '/config/routes.php');
+define('MIDDLEWARES_PATH', __DIR__ . '/app/middlewares');
 define('CONTROLLERS_PATH', __DIR__ . '/app/controllers');
 define('MODELS_PATH', __DIR__ . '/app/models');
 define('EXAMPLES_PATH', __DIR__ . '/config/cli/examples');
@@ -42,6 +44,18 @@ function show_as_column(string $title, array $data)
 }
 
 /**
+ * @param string $title
+ * @param array $data
+ * @return void
+ */
+function show_as_table(string $title, array $data)
+{
+    climate()->yellow()->bold()->underline("\n$title\n");
+    climate()->lightCyan()->table($data);
+    echo "\n";
+}
+
+/**
  * @param array $items
  * @return array
  */
@@ -54,6 +68,25 @@ function remove_extension_from_each_key(array $items) : array
 }
 
 /**
+ * List all routes.
+ *
+ * @return void
+ */
+function routes()
+{
+    $routes = require ROUTES;
+    $types = ['METHOD', 'URI', 'ACTION', 'MIDDLEWARE'];
+    $list = [];
+    foreach ($routes as $key => $route) {
+        foreach ($route as $i => $item) {
+            $list[$key][] = $item;
+        }
+    }
+    array_unshift($list, $types);
+    show_as_table('ROUTES', $list);
+}
+
+/**
  * List all controllers.
  *
  * @return void
@@ -62,7 +95,19 @@ function controllers()
 {
     $controllers = array_slice(scandir(CONTROLLERS_PATH), 2);
     $list = remove_extension_from_each_key($controllers);
-    show_as_column('controllers', $list);
+    show_as_table('CONTROLLERS', $list);
+}
+
+/**
+ * List all middlewares.
+ *
+ * @return void
+ */
+function middlewares()
+{
+    $middlewares = array_slice(scandir(MIDDLEWARES_PATH), 2);
+    $list = remove_extension_from_each_key($middlewares);
+    show_as_table('MIDDLEWARES', $list);
 }
 
 /**
@@ -74,5 +119,5 @@ function models()
 {
     $models = array_slice(scandir(MODELS_PATH), 2);
     $list = remove_extension_from_each_key($models);
-    show_as_column('models', $list);
+    show_as_table('MODELS', $list);
 }
