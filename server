@@ -1,0 +1,3 @@
+#!/usr/bin/env php
+<?php
+echo `php -S localhost:8000 -t public/`;
