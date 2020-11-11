@@ -54,7 +54,7 @@ Route declarations are in `config/routes.php` file. Supposing that you want to u
 ```
 $routes = [
 
-    ['method' => 'GET', 'uri' => '/', 'to' => 'user_controller#index']
+    get('/', 'user_controller#index')
 
 ];
 
@@ -65,7 +65,7 @@ return $routes;
 
 Now, you know [**how to declare a route**](#2-routes), so let's suppose that you want to pass a number id to `user_controller#show` function, for example. You just need to add 
 ```
-['method' => 'GET', 'uri' => '/users/{id}', 'to' => 'user_controller#show']
+get('/users{id}', 'user_controller#show')
 ``` 
 on the `$routes` array.
 
@@ -73,8 +73,8 @@ I'll be like this:
 ```
 $routes = [
 
-    ['method' => 'GET', 'uri' => '/', 'to' => 'user_controller#index'],
-    ['method' => 'GET', 'uri' => '/users/{id}', 'to' => 'user_controller#show']
+    get('/', 'user_controller#index'),
+    get('/users/{id}, 'user_controller#show')
 
 ];
 
@@ -170,8 +170,8 @@ We can see here on `config/routes.php` that the middleware to `GET '/'` route is
 <?php
 
 $routes = [
-    ['method' => 'GET', 'uri' => '/', 'to' => 'user_controller#index', 'middleware' => 'auth'],
-    ['method' => 'GET', 'uri' => '/hello/{name}', 'to' => 'user_controller#hello'],
+    get('/', 'user_controller#index', 'auth'),
+    get('/hello/{name}', 'user_controller#hello')
 ];
 
 return $routes;
