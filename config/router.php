@@ -133,3 +133,42 @@ function parse_route_action(string $route_action) : array
 {
     return explode('#', $route_action, 2);
 }
+
+/**
+ * Functions for routes.
+ */
+
+function get_route(String $method, String $uri, String $action, String $middleware = '') : Array
+{
+    return ['method' => $method, 'uri' => $uri, 'to' => $action, 'middleware' => $middleware];
+}
+
+function get(String $uri, String $action, String $middleware = '') : Array
+{
+    return get_route('GET', $uri, $action, $middleware);
+}
+
+function post(String $uri, String $action, String $middleware = '') : Array
+{
+    return get_route('POST', $uri, $action, $middleware);
+}
+
+function put(String $uri, String $action, String $middleware = '') : Array
+{
+    return get_route('PUT', $uri, $action, $middleware);
+}
+
+function patch(String $uri, String $action, String $middleware = '') : Array
+{
+    return get_route('PATCH', $uri, $action, $middleware);
+}
+
+function delete(String $uri, String $action, String $middleware = '') : Array
+{
+    return get_route('DELETE', $uri, $action, $middleware);
+}
+
+function options(String $uri, String $action, String $middleware = '') : Array
+{
+    return get_route('OPTIONS', $uri, $action, $middleware);
+}

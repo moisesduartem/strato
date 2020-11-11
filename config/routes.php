@@ -1,10 +1,15 @@
 <?php
 
+use function config\router\get;
+use function config\router\post;
+use function config\router\put;
+use function config\router\delete;
+
 $routes = [
 
-    ['method' => 'GET', 'uri' => '/', 'to' => 'user_controller#index', 'middleware' => 'auth'],
-    ['method' => 'GET', 'uri' => '/users/{id}', 'to' => 'user_controller#show'],
-    ['method' => 'GET', 'uri' => '/hello/{name}', 'to' => 'user_controller#hello'],
+    get('/', 'user_controller#index', 'auth'),
+    get('/users/{id}', 'user_controller#show'),
+    get('/hello/{name}', 'user_controller#hello')
 
 ];
 
