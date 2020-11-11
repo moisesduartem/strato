@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+require_once __DIR__ . '/composer/vendor/autoload.php';
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/config/helper.php';
+use function config\helper\pdo;
+/**
+ * Define the migrations directory.
+ */
+define('MIGRATIONS_PATH', __DIR__ . '/db/migrations');
+/**
+ * Save on a variable the migration SQL path.
+ */
+$sql_file = MIGRATIONS_PATH . '/database.sql';
+/**
+ * Verify if file exists.
+ */
+if (file_exists($sql_file)) {
+    $stmt = pdo(file_get_contents($sql_file));
+    if ($stmt->errorCode() != 0000) {
+        $errorMessage = PHP_EOL . $stmt->errorInfo()[2] . PHP_EOL;
+        throw new Exception($errorMessage);
+    }
+} else {
+    echo "$sql_file doesn't exists.\n";
+}
