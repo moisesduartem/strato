@@ -22,6 +22,13 @@ require_once __DIR__ . '/../config/router.php';
 $routes = require_once __DIR__ . '/../config/routes.php';
 
 /**
+ * If uri is '/this/', will be redirected to '/this'
+ */
+if (substr(get_uri(), -1) == '/') {
+    header('Location: ' . substr(get_uri(), 0, -1));
+}
+
+/**
  * Start router.
  *
  * @param array $routes
